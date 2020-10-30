@@ -3,16 +3,20 @@ package com.example.practiveeee;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_move;
     private EditText et_test;
     private String str;
+    ImageView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //앱을 처음 실행할때 돌아가는 거
@@ -35,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent); //실제적으로 액티비티 이동하는 구문
 
            }
+        });
+
+        test = (ImageView)findViewById(R.id.test);
+        test.setOnClickListener(new View.OnClickListener() { //이미지클릭시
+            @Override
+            public void onClick(View v) { //토스트 메세지 띄움
+                Toast.makeText(getApplicationContext(), "하핫띠",Toast.LENGTH_SHORT).show();
+
+            }
         });
 
 
