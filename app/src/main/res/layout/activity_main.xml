@@ -18,6 +18,12 @@
         android:layout_height="wrap_content"
         android:text="크루 이만트" />
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        />
+
     <EditText
         android:id="@+id/et_test"
         android:layout_width="200dp"

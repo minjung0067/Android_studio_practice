@@ -6,10 +6,16 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_test;
     private String str;
     ImageView test;
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //앱을 처음 실행할때 돌아가는 거
@@ -25,6 +32,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         et_test = findViewById(R.id.et_test);
+        list = (ListView)findViewById(R.id.list); //리스트 뷰의 id가져옴
+
+        List<String> data = new ArrayList<>();
+
+        //리스트랑 리스트 뷰 연결하는 어댑터
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, data);
+        list.setAdapter(adapter);  //만들어놓은 list에다가 setting
+
+        data.add("아배고파"); //원하는 데이터 값 넣어주기
+        data.add("너무바빠");
+        adapter.notifyDataSetChanged(); //현재 상태를 저장 완료
 
 
     //누르면 subactivity쪽으로 이동하는 버튼 만들기
@@ -49,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 
