@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     EditText et_save;
     String shared = "file";
+    private WebView webView;
+    private String url = "http://m.naver.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //앱을 처음 실행할때 돌아가는 거
@@ -53,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         data.add("너무바빠");
         adapter.notifyDataSetChanged(); //현재 상태를 저장 완료
 
+        webView = (WebView)findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
+        webView.setWebChromeClient(new WebChromeClient()); //구글 크롬으로 열겠다
+        webView.setWebViewClient(new WebViewClientClass());
 
 
 
@@ -78,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "하핫띠",Toast.LENGTH_SHORT).show();
 
             }
-        });
+        }
+        );
 
 
 
@@ -100,5 +112,22 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
         //임시저장이라 앱 삭제하면 사라짐 -> 데이터베이스 연동시켜서 서버 운영하면 영구저장 가능
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private class WebViewClientClass extends WebViewClient { //현재 페이지 url을 읽어올 수 있음
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }
