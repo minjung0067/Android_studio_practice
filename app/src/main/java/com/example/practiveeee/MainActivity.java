@@ -3,6 +3,7 @@ package com.example.practiveeee;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -24,11 +25,19 @@ public class MainActivity extends AppCompatActivity {
     private String str;
     ImageView test;
     private ListView list;
+    EditText et_save;
+    String shared = "file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //앱을 처음 실행할때 돌아가는 거
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        et_save = (EditText)findViewById(R.id.et_save);  //#8
+        SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
+        String value = sharedPreferences.getString("mant","");
+        et_save.setText(value);
 
 
         et_test = findViewById(R.id.et_test);
@@ -43,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         data.add("아배고파"); //원하는 데이터 값 넣어주기
         data.add("너무바빠");
         adapter.notifyDataSetChanged(); //현재 상태를 저장 완료
+
+
+
 
 
     //누르면 subactivity쪽으로 이동하는 버튼 만들기
@@ -71,6 +83,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    //앱을 종료 시켰을 때, activity 벗어났을 때 실행할 수 있는 거 #8
+    // 나중에 앱 키면 oncreate 실행이 될텐데, 얘에서 저장하면서 빠져나오고 새로 키면 oncreate에서 들어오고
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //값 저장해놓고 실행될 때 #8
+        SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String value = et_save.getText().toString(); //실제 써져있는 값을 받아오는 거
+        editor.putString("mant",value);  //만트라는 이름으로 이 value값을 가져올 거야
+        editor.commit();
+        //임시저장이라 앱 삭제하면 사라짐 -> 데이터베이스 연동시켜서 서버 운영하면 영구저장 가능
 
     }
 }
