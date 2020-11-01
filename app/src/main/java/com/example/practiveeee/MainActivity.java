@@ -1,12 +1,15 @@
 package com.example.practiveeee;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -32,12 +35,45 @@ public class MainActivity extends AppCompatActivity {
     EditText et_save;
     String shared = "file";
     private WebView webView;
-    private String url = "http://m.naver.com";
+    private String url = "https://m.naver.com/";
+    private DrawerLayout drawerLayout;
+    private View drawerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //앱을 처음 실행할때 돌아가는 거
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerView = (View)findViewById(R.id.drawer);
+
+        Button btn_open = (Button)findViewById(R.id.btn_open);
+        btn_open.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(drawerView);
+            }
+
+        });
+
+        drawerLayout.setDrawerListener((listener));
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+
+            }
+        });
+
+        Button btn_close = (Button)findViewById(R.id.btn_close);
+        btn_close.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+
+        });
+
 
 
         et_save = (EditText)findViewById(R.id.et_save);  //#8
@@ -98,6 +134,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+        @Override
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(@NonNull View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(@NonNull View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+
+        }
+    };
+
     //앱을 종료 시켰을 때, activity 벗어났을 때 실행할 수 있는 거 #8
     // 나중에 앱 키면 oncreate 실행이 될텐데, 얘에서 저장하면서 빠져나오고 새로 키면 oncreate에서 들어오고
     @Override
@@ -121,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    };
 
     private class WebViewClientClass extends WebViewClient { //현재 페이지 url을 읽어올 수 있음
         @Override
