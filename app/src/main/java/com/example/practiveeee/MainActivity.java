@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        drawerLayout.setDrawerListener((listener));
         drawerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
